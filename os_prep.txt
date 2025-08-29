@@ -10,8 +10,9 @@ cd yay
 makepkg -si
 
 # Hauptinstallation
-sudo pacman -S --noconfirm tux net-tools nvim bind btop neofetch cuda cuda-toolbox ollama-cuda fd bash-completion proxychains-ng sqlmap exploitdb bat terraform opentofu ebtables libguestfs parallel npm kubectl impacket hashcat hashcat-utils metasploit docker docker-compose docker-buildx archlinux-keyring qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat ripgrep fzf
-# custom Stuff
+sudo pacman -S --needed --noconfirm tux net-tools nvim bind btop neofetch cuda cuda-toolbox ollama-cuda fd bash-completion proxychains-ng sqlmap exploitdb bat terraform opentofu ebtables libguestfs parallel npm kubectl impacket hashcat hashcat-utils metasploit docker docker-compose docker-buildx archlinux-keyring qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat ripgrep fzf pacman-contrib wget zip unzip gum rsync figlet xdg-user-dirs networkmanager bluez bluez-utils hyprland hyprpaper hyprlock hypridle hyprpicker noto-fonts xdg-desktop-portal xdg-desktop-portal-hyprland  libnotify dunst kitty qt5-wayland qt6-wayland
+
+# custom Stuff um standard problemen aus dem Weg zu gehen.
 sudo sed -i -e 's/^#\?unix_sock_group.*/unix_sock_group = "libvirt"/' -e 's/^#\?unix_sock_ro_perms.*/unix_sock_ro_perms = "0770"/' /etc/libvirt/libvirtd.conf
 sudo systemctl enable libvirtd.service
 sudo systemctl start libvirtd.service
