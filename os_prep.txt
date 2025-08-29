@@ -1,0 +1,46 @@
+# nach der Installation von Arch + Hyprland bei Intel CPU's und NVIDIA GPU
+# für eine saubere Analyse Kiste
+# Basis Stuff
+
+sudo pacman -Syu --noconfirm
+sudo pacman -S --noconfirm --needed git base-devel
+
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+
+# Hauptinstallation
+sudo pacman -S --noconfirm tux net-tools nvim bind btop neofetch cuda cuda-toolbox ollama-cuda fd bash-completion proxychains-ng sqlmap exploitdb bat terraform opentofu ebtables libguestfs parallel npm kubectl impacket hashcat hashcat-utils metasploit docker docker-compose docker-buildx archlinux-keyring qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat ripgrep fzf
+# custom Stuff
+sudo sed -i -e 's/^#\?unix_sock_group.*/unix_sock_group = "libvirt"/' -e 's/^#\?unix_sock_ro_perms.*/unix_sock_ro_perms = "0770"/' /etc/libvirt/libvirtd.conf
+sudo systemctl enable libvirtd.service
+sudo systemctl start libvirtd.service
+sudo usermod -a -G libvirt $(whoami)
+newgrp libvirt
+sudo systemctl restart libvirtd.service
+sudo modprobe -r kvm_intel
+sudo modprobe kvm_intel nested=1
+echo "options kvm-intel nested=1" | sudo tee /etc/modprobe.d/kvm-intel.conf
+sudo systemctl enable --now docker.service
+sudo usermod -aG docker ${USER}
+newgrp docker
+
+# yay Aktion
+yay -S httpie-desktop Seclists asn-git dnsx-bin ffuf gau naabu-bin netexec nuclei-bin nuclei-templates python-certipy responder ruby-evil-winrm ruby-bigdecimal ruby-base64 ruby-csv shuffledns-bin subfinder teams-for-linux-electron-bin visual-studio-code-bin netexec nikto wfuzz gobuster chisel-bin
+
+
+# neovim kickstarter ( hier am besten die init.lua noch anpassen, ich mag z.B die komischen Sonderzeichen nicht )
+git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+
+#  ~/.bashrc_custom 
+alias httpx='httpx-toolkit'
+alias nv='nvim'
+alias kc='kubectl'
+alias cfzf='cat "$(fzf)"'
+alias nfzf='nvim "$(fzf)"'
+f() { fzf -m --preview='bat --color=always {}' --bind 'enter:become(nvim {+})'; }
+
+
+# libvirt:
+# You need to set firewall_backend=iptables in /etc/libvirt/network.conf
+sudo virsh net-autostart default
