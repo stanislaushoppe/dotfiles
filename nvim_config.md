@@ -38,7 +38,7 @@ return {
       local mason_registry = require('mason-registry')
       local codelldb = mason_registry.get_package("codelldb")
       -- deprecated local extension_path = codelldb:get_install_path() .. "/extension/"
-      local extension_path = "/home/zm0/.local/share/nvim/mason/packages/codelldb/extension/"
+      local extension_path = "~/.local/share/nvim/mason/packages/codelldb/extension/"
       local codelldb_path = extension_path .. "adapter/codelldb"
       local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
       local cfg = require('rustaceanvim.config')
